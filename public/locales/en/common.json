@@ -1,15 +1,15 @@
 {
   "hero": {
-    "title": "Welcome to BetterLB",
-    "subtitle": "The volunteer run portal of the Municipality of Los Baños. Find information, access government services, stay updated with the latest news about Los Baños.",
+    "title": "Welcome to BetterUP",
+    "subtitle": "The volunteer run portal of the University of the Philippines Los Baños. Find information, access university services, stay updated with the latest news about UPLB.",
     "nationalId": "National ID",
     "birthCertificate": "Birth Certificate",
     "businessRegistration": "Business Registration"
   },
   "services": {
     "title": "Popular Services",
-    "governmentServices": "Government Services",
-    "description": "Access official government services quickly and easily. Find what you need for citizenship, business, education, and more.",
+    "governmentServices": "University Services",
+    "description": "Access official university services quickly and easily. Find what you need for enrollment, academic records, campus services, and more.",
     "viewAll": "View All Services",
     "viewAllCategory": "View All"
   },
@@ -74,21 +74,21 @@
     "registerNow": "Register Now"
   },
   "government": {
-    "title": "Local Government of the Municipality of Los Baños",
-    "description": "Learn about the key offices, councils, and local units that make up the Municipal Government of Los Baños.",
-    "executiveTitle": "Executive Branch",
-    "executiveDescription": "Led by the Mayor, responsible for implementing municipal policies, programs, and ordinances.",
-    "legislativeTitle": "Legislative Branch",
-    "legislativeDescription": "Composed of the Sangguniang Bayan, responsible for making local laws.",
-    "barangaysTitle": "Barangays",
-    "barangaysDescription": "Local government units within the municipality, led by elected officials who manage community-level services and programs.",
-    "departmentsTitle": "Municipal Departments",
-    "departmentsDescription" : "Municipal departments and agencies responsible for specific areas of governance.",
-    "electedofficialsTitle": "Elected Officials",
-    "electedofficialsDescription": "The elected leadership of the Executive and Legislative branches, responsible for policy implementation and law-making.",
+    "title": "University Administration of UPLB",
+    "description": "Learn about the key offices, councils, and units that make up the University Administration of UPLB.",
+    "executiveTitle": "Executive Administration",
+    "executiveDescription": "Led by the Chancellor, responsible for implementing university policies, programs, and guidelines.",
+    "legislativeTitle": "Academic Senate",
+    "legislativeDescription": "Composed of faculty representatives and administrators, responsible for academic policies and curriculum.",
+    "barangaysTitle": "Colleges and Dormitories",
+    "barangaysDescription": "Academic colleges and residential units within the university, led by deans and directors who manage academic and student services.",
+    "departmentsTitle": "University Departments",
+    "departmentsDescription" : "Administrative departments and offices responsible for specific areas of university operations.",
+    "electedofficialsTitle": "University Officials",
+    "electedofficialsDescription": "The appointed and elected leadership of the Executive and Academic bodies, responsible for policy implementation and governance.",
     "learnMore": "Learn More",
     "directoryTitle": "Official Directory",
-    "directoryDescription": "Find contact information for government officials, agencies, and offices at national and local levels.",
+    "directoryDescription": "Find contact information for university officials, departments, and offices at all levels.",
     "viewDirectory": "View Directory"
   }
 }
