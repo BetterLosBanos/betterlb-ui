@@ -3,9 +3,14 @@
     "id": "uplb",
     "name": "UPLB",
     "fullName": "University of the Philippines Los Baños",
+    "province": "Laguna",
+    "districtEngineeringOffice": "DPWH Laguna 1st DEO",
+    "region": "CALABARZON",
+    "regionCode": "IV-A",
     "type": "university",
     "logoPath": "/logos/png/betteruplb-maroon.png",
-    "officialWebsite": "https://uplb.edu.ph"
+    "officialWebsite": "https://uplb.edu.ph",
+    "provinceWebsite": "https://laguna.gov.ph"
   },
   "portal": {
     "name": "UPLB Connect",
@@ -14,7 +19,7 @@
     "tagline": "Community Powered UPLB Portal",
     "description": "Community-powered portal for the University of the Philippines Los Baños.",
     "brandColor": "#800000",
-    "navbarTagline": "A Community-run portal for",
+    "navbarTagline": "A Community-run portal for the University of the Philippines Los Baños",
     "footerBrandName": "UPLB Connect",
     "footerTagline": "Community Civic Portal",
     "logoWhitePath": "/logos/webp/betteruplb-white-outline.webp"
