@@ -1,0 +1,52 @@
+{
+  "lgu": {
+    "id": "uplb",
+    "name": "UPLB",
+    "fullName": "University of the Philippines Los Baños",
+    "type": "university",
+    "logoPath": "/logos/png/betteruplb-maroon.png",
+    "officialWebsite": "https://uplb.edu.ph"
+  },
+  "portal": {
+    "name": "UPLB Connect",
+    "domain": "uplb.betterlb.org",
+    "baseUrl": "https://uplb.betterlb.org",
+    "tagline": "Community Powered UPLB Portal",
+    "description": "Community-powered portal for the University of the Philippines Los Baños.",
+    "brandColor": "#800000",
+    "navbarTagline": "A Community-run portal for",
+    "footerBrandName": "UPLB Connect",
+    "footerTagline": "Community Civic Portal",
+    "logoWhitePath": "/logos/webp/betteruplb-white-outline.webp"
+  },
+  "location": {
+    "coordinates": {
+      "lat": 14.1665,
+      "lon": 121.2423
+    },
+    "weather": {
+      "defaultCity": "Los Baños"
+    }
+  },
+  "transparency": {
+    "procurement": {
+      "organizationName": "UNIVERSITY OF THE PHILIPPINES LOS BAÑOS",
+      "externalDashboard": "https://transparency.bettergov.ph/organizations/"
+    },
+    "infrastructure": {
+      "searchString": "UPLB",
+      "exactMatchTargets": ["uplb", "university of the philippines los baños"]
+    }
+  },
+  "dataPaths": {
+    "departments": "src/data/lgu/uplb/directory/departments.json",
+    "barangays": "src/data/lgu/uplb/directory/colleges.json",
+    "services": "src/data/lgu/uplb/services/categories"
+  },
+  "features": {
+    "openLGU": false,
+    "transparency": true,
+    "tourism": false,
+    "statistics": true
+  }
+}

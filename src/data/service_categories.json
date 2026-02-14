@@ -1,0 +1,54 @@
+{
+  "categories": [
+    {
+      "name": "Certificates & Vital Records",
+      "slug": "certificates-vital-records",
+      "description": "Birth, death, marriage certificates, cedula, and clearances."
+    },
+    {
+      "name": "Business & Licensing",
+      "slug": "business-licensing",
+      "description": "Business permits, renewals, closures, and tricycle franchising."
+    },
+    {
+      "name": "Taxation & Assessment",
+      "slug": "taxation-assessment",
+      "description": "Real property tax (Amilyar), tax declarations, and assessments."
+    },
+    {
+      "name": "Infrastructure & Engineering",
+      "slug": "infrastructure-engineering",
+      "description": "Building, occupancy, electrical, and fencing permits."
+    },
+    {
+      "name": "Social Services",
+      "slug": "social-services",
+      "description": "Medical assistance (AICS), Senior Citizen, PWD, and Solo Parent IDs."
+    },
+    {
+      "name": "Health & Wellness",
+      "slug": "health-wellness",
+      "description": "Health certificates, sanitary permits, and vaccinations."
+    },
+    {
+      "name": "Agriculture & Livelihood",
+      "slug": "agriculture-livelihood",
+      "description": "Seeds, fertilizer, anti-rabies, and job fairs."
+    },
+    {
+      "name": "Environment & Waste",
+      "slug": "environment-waste",
+      "description": "Garbage collection, tree trimming, and environmental compliance."
+    },
+    {
+      "name": "Education & Scholarship",
+      "slug": "education-scholarship",
+      "description": "Local scholarships and student financial aid."
+    },
+    {
+      "name": "Public Safety",
+      "slug": "public-safety",
+      "description": "Emergency response, fire safety, and traffic management."
+    }
+  ]
+}
