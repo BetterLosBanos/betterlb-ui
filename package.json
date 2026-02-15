@@ -1,6 +1,6 @@
 {
   "name": "@betterlb/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Shared UI component library for BetterLB portals",
   "main": "./dist/index.js",
@@ -54,5 +54,12 @@
     "philippines"
   ],
   "author": "BetterLB",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_ORG/betterlb-ui.git"
+  }
 }
