@@ -1,5 +1,5 @@
 import * as react from 'react';
-import { FC, ReactNode, ButtonHTMLAttributes, HTMLAttributes, ImgHTMLAttributes } from 'react';
+import react__default, { FC, ReactNode, ButtonHTMLAttributes, HTMLAttributes, ImgHTMLAttributes, InputHTMLAttributes } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
@@ -20,7 +20,7 @@ interface LGUConfig {
         districtEngineeringOffice?: string;
         region: string;
         regionCode: string;
-        type: 'municipality' | 'city' | 'university';
+        type: "municipality" | "city" | "university";
         logoPath: string;
         officialWebsite: string;
         provinceWebsite: string;
@@ -126,14 +126,15 @@ interface SidebarLayoutProps {
 }
 declare function SidebarLayout({ children, sidebar, header, headerNode, collapsible, defaultCollapsed, className, }: SidebarLayoutProps): react_jsx_runtime.JSX.Element;
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'link';
-type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
+type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "link" | "success";
+type ButtonSize = "sm" | "md" | "lg" | "icon";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: ButtonVariant;
     size?: ButtonSize;
     leftIcon?: ReactNode;
     rightIcon?: ReactNode;
     isLoading?: boolean;
+    fullWidth?: boolean;
 }
 declare const Button: react.ForwardRefExoticComponent<ButtonProps & react.RefAttributes<HTMLButtonElement>>;
 
@@ -157,7 +158,7 @@ interface CardProps extends HTMLAttributes<HTMLElement> {
     /** Card content to be displayed */
     children: ReactNode;
     /** Visual style variant for card */
-    variant?: 'default' | 'featured' | 'slate' | 'compact';
+    variant?: "default" | "featured" | "slate" | "compact";
     /** Enable hover effects (elevation and border color change) */
     hover?: boolean;
 }
@@ -168,7 +169,7 @@ interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
     /** Title text or content */
     children: ReactNode;
     /** Semantic heading level for accessibility */
-    level?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+    level?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 /**
  * Props for CardGrid component.
@@ -210,8 +211,8 @@ declare const CardDivider: ({ className }: {
     className?: string;
 }) => react_jsx_runtime.JSX.Element;
 
-type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'slate' | 'outline';
-interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'className'> {
+type BadgeVariant = "primary" | "secondary" | "success" | "warning" | "error" | "slate" | "outline";
+interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, "className"> {
     children: ReactNode;
     variant?: BadgeVariant;
     className?: string;
@@ -261,6 +262,84 @@ interface EmptyStateProps {
 declare function EmptyState({ title, message, actionHref, actionLabel, // Default value
 icon: Icon, }: EmptyStateProps): react_jsx_runtime.JSX.Element;
 
+interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+    value: string;
+    onChangeValue: (value: string) => void;
+    className?: string;
+    placeholder?: string;
+    icon?: ReactNode;
+    size?: "sm" | "md" | "lg";
+    clearable?: boolean;
+}
+declare const SearchInput: ({ value, onChangeValue, className, placeholder, icon, size, clearable, ...props }: SearchInputProps) => react_jsx_runtime.JSX.Element;
+
+interface SelectPickerOption {
+    label: string;
+    value: string;
+}
+interface SelectPickerProps {
+    options: SelectPickerOption[];
+    onSelect: (options: SelectPickerOption[]) => void;
+    placeholder?: string;
+    className?: string;
+    size?: "sm" | "md" | "lg";
+    disabled?: boolean;
+    searchable?: boolean;
+    clearable?: boolean;
+    selectedValues?: string[];
+}
+declare const SelectPicker: ({ options, onSelect, placeholder, className, size, disabled, searchable, clearable, selectedValues, ...props }: SelectPickerProps) => react_jsx_runtime.JSX.Element;
+
+interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
+    children: ReactNode;
+    className?: string;
+}
+declare const ScrollArea: react.ForwardRefExoticComponent<ScrollAreaProps & react.RefAttributes<HTMLDivElement>>;
+
+declare function CardSkeleton(): react_jsx_runtime.JSX.Element;
+declare function DirectoryGridSkeleton(): react_jsx_runtime.JSX.Element;
+interface PageLoadingStateProps {
+    message?: string;
+}
+declare function PageLoadingState({ message }: PageLoadingStateProps): react_jsx_runtime.JSX.Element;
+
+interface TimelineItemProps {
+    year: string;
+    title?: string;
+    children: ReactNode;
+    className?: string;
+}
+declare function Timeline({ children, className, }: {
+    children: ReactNode;
+    className?: string;
+}): react_jsx_runtime.JSX.Element;
+declare function TimelineItem({ year, title, children }: TimelineItemProps): react_jsx_runtime.JSX.Element;
+
+type BannerType = "info" | "warning" | "error" | "success" | "default";
+interface BannerProps {
+    title?: string;
+    description: string;
+    type?: BannerType;
+    icon?: boolean;
+    cta?: {
+        label: string;
+        onClick: () => void;
+        href?: string;
+        variant?: "primary" | "secondary" | "outline" | "ghost" | "link";
+        size?: "sm" | "md" | "lg";
+    } | Array<{
+        label: string;
+        onClick: () => void;
+        href?: string;
+        variant?: "primary" | "secondary" | "outline" | "ghost" | "link";
+        size?: "sm" | "md" | "lg";
+    }>;
+    className?: string;
+    onDismiss?: () => void;
+    titleSize?: "sm" | "md" | "lg";
+}
+declare const Banner: react__default.FC<BannerProps>;
+
 /**
  * Utility function to merge Tailwind CSS classes
  * Combines clsx and tailwind-merge for optimal class handling
@@ -279,4 +358,4 @@ declare function truncateText(text: string, maxLength: number): string;
  */
 declare const getRandomNumber: (min: number, max: number) => number;
 
-export { Badge, type BadgeProps, type BadgeVariant, Button, Card, CardAvatar, CardContactInfo, CardContent, CardDescription, CardDivider, CardFooter, CardGrid, type CardGridProps, CardHeader, CardImage, CardList, type CardProps, CardTitle, type CardTitleProps, type ContactInfo, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, EmptyState, type EmptyStateProps, Footer, type FooterNavigation, type FooterProps, type LGUConfig, Navbar, type NavbarProps, type NavigationItem, PaginationControls, type PaginationProps, SidebarLayout, type SidebarLayoutProps, Tabs, TabsContent, TabsList, TabsTrigger, cn, formatDate, getRandomNumber, truncateText };
+export { Badge, type BadgeProps, type BadgeVariant, Banner, type BannerProps, type BannerType, Button, type ButtonProps, type ButtonSize, type ButtonVariant, Card, CardAvatar, CardContactInfo, CardContent, CardDescription, CardDivider, CardFooter, CardGrid, type CardGridProps, CardHeader, CardImage, CardList, type CardProps, CardSkeleton, CardTitle, type CardTitleProps, type ContactInfo, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, DirectoryGridSkeleton, EmptyState, type EmptyStateProps, Footer, type FooterNavigation, type FooterProps, type LGUConfig, Navbar, type NavbarProps, type NavigationItem, PageLoadingState, PaginationControls, type PaginationProps, ScrollArea, SearchInput, SelectPicker, SidebarLayout, type SidebarLayoutProps, Tabs, TabsContent, TabsList, TabsTrigger, Timeline, TimelineItem, cn, formatDate, getRandomNumber, truncateText };
