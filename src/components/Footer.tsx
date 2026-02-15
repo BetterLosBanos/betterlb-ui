@@ -38,6 +38,17 @@ const Footer: FC<FooterProps> = ({ config, navigation }) => {
     }
   };
 
+  // Parse cost string to highlight the price (e.g., "₱0")
+  const renderCost = (cost: string) => {
+    const parts = cost.split(/(₱\d+)/);
+    return parts.map((part, i) => {
+      if (part.match(/₱\d+/)) {
+        return <span key={i} className='text-green-500'>{part}</span>;
+      }
+      return part;
+    });
+  };
+
   return (
     <footer className='selection:bg-primary-500 bg-gray-900 text-white selection:text-white'>
       <div className='container mx-auto px-4 pt-16 pb-12'>
@@ -47,7 +58,7 @@ const Footer: FC<FooterProps> = ({ config, navigation }) => {
             <div className='flex items-center'>
               <img
                 src={config.portal.logoWhitePath}
-                alt='Brand'
+                alt={config.portal.name}
                 className='mr-4 h-12 w-12'
               />
               <div>
@@ -114,11 +125,11 @@ const Footer: FC<FooterProps> = ({ config, navigation }) => {
         <div className='mt-20 flex justify-center'>
           <div className='inline-flex flex-col items-center gap-2 rounded-full border border-slate-800 bg-slate-800/50 px-6 py-4 text-center md:flex-row md:gap-4'>
             <p className='text-xs font-medium text-slate-300 md:text-sm'>
-              Built by community for community.
+              Built by the community for the community.
             </p>
             <span className='hidden h-1 w-1 rounded-full bg-slate-600 md:block' />
             <p className='text-xs font-bold md:text-sm'>
-              {navigation.brand.cost}
+              {renderCost(navigation.brand.cost)}
             </p>
           </div>
         </div>
@@ -130,7 +141,7 @@ const Footer: FC<FooterProps> = ({ config, navigation }) => {
           </p>
           <div className='flex gap-6'>
             <a
-              href='https://github.com/BetterLosBanos/betterlb'
+              href={config.portal.baseUrl}
               target='_blank'
               rel='noreferrer'
               className='text-[10px] font-bold tracking-widest text-slate-400 uppercase hover:text-white'

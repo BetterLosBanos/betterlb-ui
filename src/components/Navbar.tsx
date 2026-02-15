@@ -59,7 +59,7 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
               to='/join-us'
               className='text-primary-600 hover:text-primary-700 hidden text-[10px] font-bold tracking-widest whitespace-nowrap uppercase md:inline-flex md:text-xs'
             >
-              Join Us
+              🚀 Join Us
             </Link>
             <Link
               to='/about'
@@ -282,14 +282,14 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
                 onClick={closeMenu}
                 className='text-primary-600 block p-4 text-xs font-black tracking-widest uppercase'
               >
-                Join the Revolution
+                🚀 Join the Revolution
               </Link>
               <Link
                 to='/about'
                 onClick={closeMenu}
                 className='block p-4 text-xs font-bold tracking-widest text-slate-500 uppercase'
               >
-                About
+                About Better LB
               </Link>
               <Link
                 to='/contact'
