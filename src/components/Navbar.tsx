@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useId, useRef, useState } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 
@@ -9,6 +9,9 @@ import Button from "./ui/Button";
 
 import { LGUConfig, NavigationItem } from "../types";
 import { cn } from "../lib/utils";
+
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2";
 
 export interface NavbarProps {
   config: LGUConfig;
@@ -21,19 +24,23 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
   const [activeMobileSubmenu, setActiveMobileSubmenu] = useState<string | null>(
     null,
   );
-  const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { t, i18n } = useTranslation("common");
   const location = useLocation();
+  const mobileMenuId = useId();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
-    if (isOpen) setActiveMobileSubmenu(null);
+    setIsOpen((prev) => {
+      if (prev) setActiveMobileSubmenu(null);
+      return !prev;
+    });
   };
 
   const closeMenu = () => {
     setIsOpen(false);
     setActiveMobileSubmenu(null);
-    setHoveredDropdown(null);
+    setOpenDropdown(null);
   };
 
   const changeLanguage = (newLanguage: string) => {
@@ -46,10 +53,30 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
     return path === target || (target !== "" && path.startsWith(target + "/"));
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isOpen]);
+
+  useEffect(() => {
+    setIsOpen(false);
+    setActiveMobileSubmenu(null);
+    setOpenDropdown(null);
+  }, [location.pathname]);
+
   return (
     <nav
       className="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-xs"
-      role="navigation"
+      aria-label="Primary"
     >
       {/* 1. TOP BAR: Responsive & Aligned Right */}
       <div className="border-b border-slate-200 bg-slate-50">
@@ -57,13 +84,19 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
           <div className="flex h-10 items-center justify-end gap-3 sm:gap-4 md:gap-6">
             <Link
               to="/join-us"
-              className="text-primary-600 hover:text-primary-700 hidden text-[10px] font-bold tracking-widest whitespace-nowrap uppercase md:inline-flex md:text-xs"
+              className={cn(
+                "text-primary-600 hover:text-primary-700 hidden rounded-sm text-[10px] font-bold tracking-widest whitespace-nowrap uppercase md:inline-flex md:text-xs",
+                focusRing,
+              )}
             >
               🚀 Join Us
             </Link>
             <Link
               to="/about"
-              className="hover:text-primary-600 hidden text-[10px] font-bold tracking-widest whitespace-nowrap text-slate-500 uppercase md:inline-flex md:text-xs"
+              className={cn(
+                "hover:text-primary-600 hidden rounded-sm text-[10px] font-bold tracking-widest whitespace-nowrap text-slate-500 uppercase md:inline-flex md:text-xs",
+                focusRing,
+              )}
             >
               About
             </Link>
@@ -71,23 +104,34 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
               href={config.lgu.officialWebsite}
               target="_blank"
               rel="noreferrer"
-              className="hover:text-primary-600 inline-flex text-[9px] font-bold tracking-widest whitespace-nowrap text-slate-500 uppercase sm:text-[10px] md:text-xs"
+              className={cn(
+                "hover:text-primary-600 inline-flex rounded-sm text-[9px] font-bold tracking-widest whitespace-nowrap text-slate-500 uppercase sm:text-[10px] md:text-xs",
+                focusRing,
+              )}
             >
               <span className="inline sm:hidden">Gov.ph</span>
               <span className="hidden sm:inline">Official Gov.ph</span>
             </a>
-            <Link
-              to="https://hotlines.bettergov.ph/"
-              className="hover:text-primary-600 inline-flex text-[9px] font-bold tracking-widest whitespace-nowrap text-slate-500 uppercase sm:text-[10px] md:text-xs"
+            <a
+              href="https://hotlines.bettergov.ph/"
+              target="_blank"
+              rel="noreferrer"
+              className={cn(
+                "hover:text-primary-600 inline-flex rounded-sm text-[9px] font-bold tracking-widest whitespace-nowrap text-slate-500 uppercase sm:text-[10px] md:text-xs",
+                focusRing,
+              )}
             >
               Hotlines
-            </Link>
+            </a>
             <div className="flex shrink-0 items-center border-l border-slate-200 pl-2">
               <select
                 aria-label="Select Language"
                 value={i18n.language}
                 onChange={(e) => changeLanguage(e.target.value)}
-                className="cursor-pointer bg-transparent text-[9px] font-bold tracking-widest text-slate-500 uppercase outline-none sm:text-[10px] md:text-xs"
+                className={cn(
+                  "cursor-pointer rounded-sm bg-transparent text-[9px] font-bold tracking-widest text-slate-500 uppercase sm:text-[10px] md:text-xs",
+                  focusRing,
+                )}
               >
                 {Object.entries(languages).map(([code, lang]) => (
                   <option key={code} value={code}>
@@ -103,15 +147,17 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
       {/* 2. MAIN NAV: Desktop Dropdowns + Mobile Toggle */}
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between md:h-20">
-          {/* Brand/Logo Section (Constrained) */}
           <Link
             to="/"
-            className="group flex max-w-[60%] min-w-0 items-center md:max-w-md"
+            className={cn(
+              "group flex max-w-[60%] min-w-0 items-center rounded-sm md:max-w-md",
+              focusRing,
+            )}
             onClick={closeMenu}
           >
             <img
-              src="/logos/webp/betterlb-blue-outline.webp"
-              alt="BetterLB Logo"
+              src={config.lgu.logoPath}
+              alt={`${config.portal.name} logo`}
               className="mr-3 h-10 w-10 shrink-0 transition-transform group-hover:scale-105 md:h-12 md:w-12"
             />
             <div className="flex min-w-0 flex-col justify-center">
@@ -124,20 +170,36 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
             </div>
           </Link>
 
-          {/* Desktop Menu */}
           <div className="hidden items-center space-x-1 lg:flex xl:space-x-4">
             {mainNavigation.map((item) => {
               const active = isActiveRoute(item.href);
-              const hasChildren = item.children && item.children.length > 0;
+              const hasChildren = Boolean(item.children?.length);
+              const isDropdownOpen = openDropdown === item.label;
 
               return (
                 <div
                   key={item.label}
                   className="relative flex h-full items-center"
                   onMouseEnter={() =>
-                    hasChildren && setHoveredDropdown(item.label)
+                    hasChildren && setOpenDropdown(item.label)
                   }
-                  onMouseLeave={() => setHoveredDropdown(null)}
+                  onMouseLeave={() => setOpenDropdown(null)}
+                  onFocus={() => hasChildren && setOpenDropdown(item.label)}
+                  onBlur={(event) => {
+                    if (
+                      !event.currentTarget.contains(
+                        event.relatedTarget as Node | null,
+                      )
+                    ) {
+                      setOpenDropdown(null);
+                    }
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      setOpenDropdown(null);
+                      (event.currentTarget.querySelector("a") as HTMLElement | null)?.focus();
+                    }
+                  }}
                 >
                   <Link
                     to={item.href}
@@ -146,27 +208,38 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
                       active
                         ? "text-primary-600 border-primary-600"
                         : "hover:text-primary-600 border-transparent text-slate-600",
+                      focusRing,
                     )}
+                    aria-haspopup={hasChildren ? "menu" : undefined}
+                    aria-expanded={hasChildren ? isDropdownOpen : undefined}
                   >
                     {t(`navbar.${item.label.toLowerCase()}`)}
                     {hasChildren && (
                       <ChevronDownIcon
                         className={cn(
                           "h-3 w-3 transition-transform",
-                          hoveredDropdown === item.label && "rotate-180",
+                          isDropdownOpen && "rotate-180",
                         )}
+                        aria-hidden="true"
                       />
                     )}
                   </Link>
 
-                  {/* Desktop Dropdown Menu */}
-                  {hasChildren && hoveredDropdown === item.label && (
-                    <div className="animate-in fade-in slide-in-from-top-2 absolute top-full left-0 w-64 rounded-b-xl border border-slate-100 bg-white py-2 shadow-xl duration-200">
+                  {hasChildren && isDropdownOpen && (
+                    <div
+                      role="menu"
+                      aria-label={item.label}
+                      className="animate-in fade-in slide-in-from-top-2 absolute top-full left-0 w-64 rounded-b-xl border border-slate-100 bg-white py-2 shadow-xl duration-200"
+                    >
                       {item.children?.map((child) => (
                         <Link
                           key={child.label}
+                          role="menuitem"
                           to={child.href}
-                          className="hover:bg-primary-50 hover:text-primary-700 block px-5 py-3 text-xs font-bold tracking-wider text-slate-600 uppercase transition-colors"
+                          className={cn(
+                            "hover:bg-primary-50 hover:text-primary-700 block px-5 py-3 text-xs font-bold tracking-wider text-slate-600 uppercase transition-colors",
+                            focusRing,
+                          )}
                           onClick={closeMenu}
                         >
                           {child.label}
@@ -179,45 +252,53 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
             })}
             <Link
               to="/search"
-              className="hover:text-primary-600 ml-4 p-3 text-slate-600 transition-colors"
+              className={cn(
+                "hover:text-primary-600 ml-4 rounded-sm p-3 text-slate-600 transition-colors",
+                focusRing,
+              )}
               aria-label="Search"
             >
-              <SearchIcon className="h-5 w-5" />
+              <SearchIcon className="h-5 w-5" aria-hidden="true" />
             </Link>
           </div>
 
-          {/* Mobile Buttons */}
           <div className="flex items-center gap-1 lg:hidden">
             <Link
               to="/search"
-              className="p-3 text-slate-600"
+              className={cn("rounded-sm p-3 text-slate-600", focusRing)}
               aria-label="Search"
             >
-              <SearchIcon className="h-6 w-6" />
+              <SearchIcon className="h-6 w-6" aria-hidden="true" />
             </Link>
             <Button
+              ref={menuButtonRef}
               onClick={toggleMenu}
               variant="ghost"
-              aria-label="Toggle Menu"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
+              aria-controls={mobileMenuId}
               className="rounded-xl bg-slate-50 p-3 text-slate-900"
             >
               {isOpen ? (
-                <XIcon className="h-6 w-6" />
+                <XIcon className="h-6 w-6" aria-hidden="true" />
               ) : (
-                <MenuIcon className="h-6 w-6" />
+                <MenuIcon className="h-6 w-6" aria-hidden="true" />
               )}
             </Button>
           </div>
         </div>
       </div>
 
-      {/* 3. MOBILE MENU OVERLAY: RESTORED NESTING */}
       {isOpen && (
-        <div className="animate-in slide-in-from-right fixed inset-0 top-[104px] z-40 overflow-y-auto bg-white duration-300 lg:hidden">
+        <div
+          id={mobileMenuId}
+          className="animate-in slide-in-from-right fixed inset-0 top-[104px] z-40 overflow-y-auto bg-white duration-300 lg:hidden"
+        >
           <div className="flex flex-col p-4 pb-20">
             {mainNavigation.map((item) => {
-              const hasChildren = item.children && item.children.length > 0;
+              const hasChildren = Boolean(item.children?.length);
               const isSubOpen = activeMobileSubmenu === item.label;
+              const submenuId = `${mobileMenuId}-${item.label}`;
 
               return (
                 <div
@@ -229,10 +310,11 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
                       to={item.href}
                       onClick={closeMenu}
                       className={cn(
-                        "flex-1 p-4 text-lg font-bold transition-colors",
+                        "flex-1 rounded-sm p-4 text-lg font-bold transition-colors",
                         isActiveRoute(item.href)
                           ? "text-primary-600"
                           : "text-slate-900",
+                        focusRing,
                       )}
                     >
                       {t(`navbar.${item.label.toLowerCase()}`)}
@@ -245,26 +327,35 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
                         }}
                         variant="ghost"
                         className="p-4 text-slate-400"
+                        aria-label={`${isSubOpen ? "Collapse" : "Expand"} ${item.label} submenu`}
+                        aria-expanded={isSubOpen}
+                        aria-controls={submenuId}
                       >
                         <ChevronDownIcon
                           className={cn(
                             "h-6 w-6 transition-transform",
                             isSubOpen && "rotate-180",
                           )}
+                          aria-hidden="true"
                         />
                       </Button>
                     )}
                   </div>
 
-                  {/* Mobile Submenu Items */}
                   {hasChildren && isSubOpen && (
-                    <div className="animate-in slide-in-from-top-2 mx-2 mb-2 overflow-hidden rounded-2xl bg-slate-50">
+                    <div
+                      id={submenuId}
+                      className="animate-in slide-in-from-top-2 mx-2 mb-2 overflow-hidden rounded-2xl bg-slate-50"
+                    >
                       {item.children?.map((child) => (
                         <Link
                           key={child.label}
                           to={child.href}
                           onClick={closeMenu}
-                          className="block border-b border-white p-4 text-sm font-bold text-slate-600 last:border-0"
+                          className={cn(
+                            "block border-b border-white p-4 text-sm font-bold text-slate-600 last:border-0",
+                            focusRing,
+                          )}
                         >
                           {child.label}
                         </Link>
@@ -275,26 +366,34 @@ const Navbar: FC<NavbarProps> = ({ config, mainNavigation, languages }) => {
               );
             })}
 
-            {/* Mobile-only additional links */}
             <div className="mt-4 space-y-1 border-t border-slate-100 pt-4">
               <Link
                 to="/join-us"
                 onClick={closeMenu}
-                className="text-primary-600 block p-4 text-xs font-black tracking-widest uppercase"
+                className={cn(
+                  "text-primary-600 block rounded-sm p-4 text-xs font-black tracking-widest uppercase",
+                  focusRing,
+                )}
               >
                 🚀 Join the Revolution
               </Link>
               <Link
                 to="/about"
                 onClick={closeMenu}
-                className="block p-4 text-xs font-bold tracking-widest text-slate-500 uppercase"
+                className={cn(
+                  "block rounded-sm p-4 text-xs font-bold tracking-widest text-slate-500 uppercase",
+                  focusRing,
+                )}
               >
                 About Better LB
               </Link>
               <Link
                 to="/contact"
                 onClick={closeMenu}
-                className="block p-4 text-xs font-bold tracking-widest text-slate-500 uppercase"
+                className={cn(
+                  "block rounded-sm p-4 text-xs font-bold tracking-widest text-slate-500 uppercase",
+                  focusRing,
+                )}
               >
                 Contact Us
               </Link>
