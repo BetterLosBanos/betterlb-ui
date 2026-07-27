@@ -271,7 +271,7 @@ interface SearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "
     size?: "sm" | "md" | "lg";
     clearable?: boolean;
 }
-declare const SearchInput: ({ value, onChangeValue, className, placeholder, icon, size, clearable, ...props }: SearchInputProps) => react_jsx_runtime.JSX.Element;
+declare const SearchInput: ({ value, onChangeValue, className, placeholder, icon, size, clearable, id, "aria-label": ariaLabel, "aria-controls": ariaControls, "aria-expanded": ariaExpanded, "aria-autocomplete": ariaAutocomplete, role, ...props }: SearchInputProps) => react_jsx_runtime.JSX.Element;
 
 interface SelectPickerOption {
     label: string;
@@ -287,8 +287,9 @@ interface SelectPickerProps {
     searchable?: boolean;
     clearable?: boolean;
     selectedValues?: string[];
+    "aria-label"?: string;
 }
-declare const SelectPicker: ({ options, onSelect, placeholder, className, size, disabled, searchable, clearable, selectedValues, ...props }: SelectPickerProps) => react_jsx_runtime.JSX.Element;
+declare const SelectPicker: ({ options, onSelect, placeholder, className, size, disabled, searchable, clearable, selectedValues, "aria-label": ariaLabel, }: SelectPickerProps) => react_jsx_runtime.JSX.Element;
 
 interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;

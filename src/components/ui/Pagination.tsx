@@ -70,11 +70,12 @@ export function PaginationControls({
         </span>
 
         <div className="flex items-center gap-2">
-          <span>Rows:</span>
+          <span id="pagination-rows-label">Rows:</span>
           <select
             value={resultsPerPage}
             onChange={(e) => onResultsPerPageChange(Number(e.target.value))}
-            className="focus:border-primary-500 focus:ring-primary-500 h-8 rounded-lg border-slate-300 bg-white text-xs font-medium text-slate-700"
+            aria-labelledby="pagination-rows-label"
+            className="focus-visible:border-primary-500 focus-visible:ring-primary-500 h-8 rounded-lg border border-slate-300 bg-white text-xs font-medium text-slate-700 focus-visible:ring-2 focus-visible:outline-none"
           >
             {[10, 20, 50, 100].map((val) => (
               <option key={val} value={val}>
@@ -92,8 +93,9 @@ export function PaginationControls({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
           className="h-8 w-8 p-0"
+          aria-label="Previous page"
         >
-          <ChevronLeft className="h-4 w-4" />
+          <ChevronLeft className="h-4 w-4" aria-hidden="true" />
         </Button>
 
         <div className="hidden gap-1 sm:flex">
@@ -108,8 +110,11 @@ export function PaginationControls({
             ) : (
               <button
                 key={idx}
+                type="button"
                 onClick={() => onPageChange(page as number)}
-                className={`h-8 w-8 rounded-lg text-xs font-bold transition-colors ${
+                aria-label={`Page ${page}`}
+                aria-current={currentPage === page ? "page" : undefined}
+                className={`h-8 w-8 rounded-lg text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 ${
                   currentPage === page
                     ? "bg-primary-600 text-white"
                     : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
@@ -127,8 +132,9 @@ export function PaginationControls({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           className="h-8 w-8 p-0"
+          aria-label="Next page"
         >
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-4 w-4" aria-hidden="true" />
         </Button>
       </nav>
     </div>
